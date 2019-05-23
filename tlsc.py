@@ -16,9 +16,7 @@ s_cont=ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 
 def accept(port):
     logger.info("accept %s", port)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+    s = create_socket()
     s.bind(('', port))
     s.listen(1)
     s.settimeout(5)
@@ -34,9 +32,7 @@ def accept(port):
 
 def connect(local_addr, addr):
     logger.info("connect from %s to %s", local_addr, addr)
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEPORT, 1)
+    s = create_socket()
     s.bind(local_addr)
     while not STOP.is_set():
         try:
